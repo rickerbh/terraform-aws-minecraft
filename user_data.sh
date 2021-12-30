@@ -41,7 +41,7 @@ ubuntu_linux_setup() {
   export SSH_USER="ubuntu"
   export DEBIAN_FRONTEND=noninteractive
   /usr/bin/apt-get update
-  /usr/bin/apt-get -yq install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" default-jre wget awscli jq
+  /usr/bin/apt-get -yq install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" openjdk-17-jdk-headless wget awscli jq
   /bin/cat <<"__UPG__" > /etc/apt/apt.conf.d/10periodic
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Download-Upgradeable-Packages "1";
@@ -52,7 +52,14 @@ __UPG__
   # Init script for starting, stopping
   cat <<INIT > /etc/init.d/minecraft
 #!/bin/bash
+### BEGIN INIT INFO
+# Provides: minecraft
+# Required-Start:
+# Required-Stop:
+# Default-Start: 3 4 5
+# Default-Stop:
 # Short-Description: Minecraft server
+### END INIT INFO
 
 start() {
   echo "Starting minecraft server from /home/minecraft..."
@@ -193,4 +200,3 @@ case $OS in
 esac
 
 exit 0
-
